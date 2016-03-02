@@ -31,7 +31,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private void createPhotoTable(SQLiteDatabase db) {
         String sql = "create table if not exists " + PhotoDao.TABLE +
-                "(" +
+                "(PRIMARY KEY " +
                 PhotoDao.TABLE_ID +
                 " int," +
                 PhotoDao.TABLE_NAME +

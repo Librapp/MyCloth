@@ -42,8 +42,19 @@ public class PhotoDao extends BaseDao {
         values.put(TABLE_CATEGORY, pb.category);
         values.put(TABLE_SEASON, pb.season);
         values.put(TABLE_DESCRIPTION, pb.description);
-        dbWrite.beginTransaction();
-        dbWrite.insert(TABLE, null, values);
-        dbWrite.endTransaction();
+        dbWrite.insert(TABLE, TABLE_FILEPATH+","+TABLE_DESCRIPTION, values);
+    }
+
+    public void replace(PhotoBean pb) {
+        getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(TABLE_ID, pb.id);
+        values.put(TABLE_NAME, pb.name);
+        values.put(TABLE_URL, pb.url);
+        values.put(TABLE_FILEPATH, pb.filepath);
+        values.put(TABLE_CATEGORY, pb.category);
+        values.put(TABLE_SEASON, pb.season);
+        values.put(TABLE_DESCRIPTION, pb.description);
+        dbWrite.replace(TABLE,TABLE_FILEPATH+","+TABLE_DESCRIPTION,values);
     }
 }
