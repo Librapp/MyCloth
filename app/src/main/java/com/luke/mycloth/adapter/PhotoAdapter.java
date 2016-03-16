@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.provider.MediaStore;
 import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +23,7 @@ import java.util.Set;
 /**
  * Created by Luke on 2016/2/20 0020.
  */
-public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListView.OnScrollListener {
+public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.OnScrollListener {
 
     /**
      * 记录所有正在下载或等待下载的任务。
@@ -56,7 +55,7 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
      */
     private boolean isFirstEnter = true;
 
-    public PhotoWallAdapter(Context context, int textViewResourceId, String[] objects,
+    public PhotoAdapter(Context context, int textViewResourceId, String[] objects,
                             GridView photoWall) {
 
         super(context, textViewResourceId, objects);
@@ -195,22 +194,22 @@ public class PhotoWallAdapter extends ArrayAdapter<String> implements AbsListVie
      */
     private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
         try {
-            for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-                String imageUrl = MediaStore.Images.imageThumbUrls[i];
-                Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-                //判断是否在缓存中，不在的话就去下载图片
-                if (bitmap == null) {
-                    BitmapWorkerTask task = new BitmapWorkerTask();
-                    taskCollection.add(task);
-                    task.execute(imageUrl);
-                } else {
-                    //原来imageview设置了tag
-                    ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
-                    if (imageView != null && bitmap != null) {
-                        imageView.setImageBitmap(bitmap);
-                    }
-                }
-            }
+//            for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+//                String imageUrl = MediaStore.Images.imageThumbUrls[i];
+//                Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+//                //判断是否在缓存中，不在的话就去下载图片
+//                if (bitmap == null) {
+//                    BitmapWorkerTask task = new BitmapWorkerTask();
+//                    taskCollection.add(task);
+//                    task.execute(imageUrl);
+//                } else {
+//                    //原来imageview设置了tag
+//                    ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+//                    if (imageView != null && bitmap != null) {
+//                        imageView.setImageBitmap(bitmap);
+//                    }
+//                }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
