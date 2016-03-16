@@ -9,5 +9,13 @@
     <string name="autumn">秋</string>
     <string name="winter">冬</string>
     <string name="save">保存</string>
+    <array name="part">
+        <item name="hat">帽子</item>
+        <item name="coat">外套</item>
+        <item name="pants">裤子</item>
+        <item name="shoes">鞋</item>
+    </array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
