@@ -106,7 +106,7 @@ public class PhotoUtil {
             f.mkdirs();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA)
                 .format(new Date());
-        File mediaFile = new File(f.getAbsolutePath(), "MyCloth_"
+        File mediaFile = new File(f.getPath(), "MyCloth_"
                 + timeStamp + ".jpg");
         result = Uri.fromFile(mediaFile);
         Intent intent = new Intent("com.android.camera.action.CROP");
@@ -133,7 +133,7 @@ public class PhotoUtil {
             f.mkdirs();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA)
                 .format(new Date());
-        File mediaFile = new File(f.getAbsolutePath(), "MyCloth_"
+        File mediaFile = new File(f.getPath(), "MyCloth_"
                 + timeStamp + ".jpg");
         result = Uri.fromFile(mediaFile);
         Intent intent = new Intent("com.android.camera.action.CROP");
