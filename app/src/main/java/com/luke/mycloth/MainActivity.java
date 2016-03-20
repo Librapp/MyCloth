@@ -1,8 +1,10 @@
 package com.luke.mycloth;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,7 +14,7 @@ import android.widget.ListView;
 
 import com.luke.mycloth.fragment.PartenFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PartenFragment.OnFragmentInteractionListener {
     private DrawerLayout drawerLayout;
     private ListView listView;
     private String[] mPlanetTitles;
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new DrawerItemClickListener());
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -43,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // Create a new fragment and specify the planet to show based on position
         Fragment fragment = PartenFragment.newInstance("","");
         // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager=getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fl_content, fragment)
                 .commit();
@@ -57,5 +64,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void setTitle(CharSequence title) {
         getActionBar().setTitle(title);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
