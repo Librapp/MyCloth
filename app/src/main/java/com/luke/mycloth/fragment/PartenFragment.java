@@ -11,10 +11,21 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.GridView;
 
 import com.luke.mycloth.ClothEditActivity;
 import com.luke.mycloth.R;
+import com.luke.mycloth.adapter.PhotoAdapter;
+import com.luke.mycloth.bean.PhotoBean;
+import com.luke.mycloth.dao.PhotoDao;
+import com.luke.mycloth.util.DialogUtil;
 import com.luke.mycloth.util.PhotoUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,13 +36,11 @@ import com.luke.mycloth.util.PhotoUtil;
  * create an instance of this fragment.
  */
 public class PartenFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private int category;
+    private GridView gridView;
+
+    private List<PhotoBean> datas = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -43,16 +52,12 @@ public class PartenFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment PartenFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static PartenFragment newInstance(String param1, String param2) {
+    public static PartenFragment newInstance(int category) {
         PartenFragment fragment = new PartenFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM1, category);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,15 +66,13 @@ public class PartenFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            category = getArguments().getInt(ARG_PARAM1);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_part, container, false);
     }
 
@@ -86,6 +89,24 @@ public class PartenFragment extends Fragment {
                 PhotoUtil.pickPhoto(PartenFragment.this).show();
             }
         });
+        gridView = (GridView) v.findViewById(R.id.gridView);
+        gridView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), ClothEditActivity.class);
+                intent.putExtra("photo", datas.get(i));
+                startActivity(intent);
+            }
+        });
+        gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DialogUtil.doWithPhoto(getActivity(), datas.get(i)).show();
+                return true;
+            }
+        });
+        datas = new PhotoDao(getActivity()).queryByCategory(category);
+        gridView.setAdapter(new PhotoAdapter(getActivity(), datas, gridView));
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -138,14 +159,18 @@ public class PartenFragment extends Fragment {
             switch (requestCode) {
                 case PhotoUtil.REQUEST_ABLUM:
                     Uri originalUri = data.getData();
-                    PhotoUtil.startPhotoZoom(this,originalUri);
+                    PhotoUtil.startPhotoZoom(this, originalUri);
                     break;
                 case PhotoUtil.REQUEST_CAMERA:
-                    PhotoUtil.startPhotoZoom(this,PhotoUtil.temp);
+                    PhotoUtil.startPhotoZoom(this, PhotoUtil.temp);
                     break;
                 case PhotoUtil.REQUEST_CROP:
-
-                    startActivity(new Intent(getActivity(), ClothEditActivity.class));
+                    PhotoBean photo = new PhotoBean();
+                    photo.filepath = PhotoUtil.result.getPath();
+                    photo.category = category;
+                    Intent i = new Intent(getActivity(), ClothEditActivity.class);
+                    i.putExtra("photo", photo);
+                    startActivity(i);
                     break;
                 default:
                     break;

@@ -6,15 +6,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.luke.mycloth.bean.PhotoBean;
+import com.luke.mycloth.dao.PhotoDao;
 import com.luke.mycloth.util.PhotoUtil;
 
-public class ClothEditActivity extends BaseActivity {
+public class ClothEditActivity extends BaseActivity implements OnClickListener {
     private ImageView preview;
     private PhotoBean photo = new PhotoBean();
-
+    private Spinner s_category;
+    private CheckBox spring, summer, autumn, winter;
+    private EditText et_description;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +29,12 @@ public class ClothEditActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         initView();
         initData();
@@ -34,9 +47,14 @@ public class ClothEditActivity extends BaseActivity {
         } else {
             if (null != PhotoUtil.result) {
                 photo.filepath = PhotoUtil.result.getPath();
-                preview.setImageURI(PhotoUtil.result);
             }
         }
+        preview.setImageURI(Uri.parse(photo.filepath));
+        s_category.setSelection(photo.category);
+        spring.setChecked(photo.spring == 1);
+        summer.setChecked(photo.summer == 1);
+        autumn.setChecked(photo.autumn == 1);
+        winter.setChecked(photo.winter == 1);
     }
 
     private void initView() {
@@ -47,10 +65,29 @@ public class ClothEditActivity extends BaseActivity {
                 PhotoUtil.pickPhoto(ClothEditActivity.this).show();
             }
         });
+        s_category = (Spinner) findViewById(R.id.s_category);
+        spring = (CheckBox) findViewById(R.id.cb_spring);
+        summer = (CheckBox) findViewById(R.id.cb_summer);
+        autumn = (CheckBox) findViewById(R.id.cb_autumn);
+        winter = (CheckBox) findViewById(R.id.cb_winter);
+        et_description = (EditText) findViewById(R.id.et_description);
+        findViewById(R.id.b_save).setOnClickListener(this);
     }
 
     private void save() {
-
+        photo.category = s_category.getSelectedItemPosition();
+        photo.spring = spring.isChecked() ? 1 : 0;
+        photo.summer = summer.isChecked() ? 1 : 0;
+        photo.autumn = autumn.isChecked() ? 1 : 0;
+        photo.winter = winter.isChecked() ? 1 : 0;
+        if (null != et_description.getText())
+            photo.description = et_description.getText().toString();
+        PhotoDao photoDao = new PhotoDao(this);
+        if (null != photo.id && photoDao.isExist(photo.id))
+            photoDao.replace(photo);
+        else
+            photoDao.insert(photo);
+        finish();
     }
 
     @Override
@@ -71,8 +108,10 @@ public class ClothEditActivity extends BaseActivity {
                     PhotoUtil.startPhotoZoom(this, PhotoUtil.temp);
                     break;
                 case PhotoUtil.REQUEST_CROP:
-                    if (null != PhotoUtil.result)
+                    if (null != PhotoUtil.result) {
+                        photo.filepath = PhotoUtil.result.getPath();
                         preview.setImageURI(PhotoUtil.result);
+                    }
                     break;
                 default:
                     break;
@@ -80,4 +119,12 @@ public class ClothEditActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.b_save:
+                save();
+                break;
+        }
+    }
 }

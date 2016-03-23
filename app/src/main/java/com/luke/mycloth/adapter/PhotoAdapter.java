@@ -9,21 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.luke.mycloth.R;
+import com.luke.mycloth.bean.PhotoBean;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
  * Created by Luke on 2016/2/20 0020.
  */
-public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.OnScrollListener {
+public class PhotoAdapter extends BaseAdapter implements AbsListView.OnScrollListener {
 
     /**
      * 记录所有正在下载或等待下载的任务。
@@ -35,6 +37,8 @@ public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.On
      */
     private LruCache<String, Bitmap> mMemoryCache;
 
+    private List<PhotoBean> datas;
+    private Context context;
     /**
      * GridView的实例
      */
@@ -55,10 +59,10 @@ public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.On
      */
     private boolean isFirstEnter = true;
 
-    public PhotoAdapter(Context context, int textViewResourceId, String[] objects,
-                            GridView photoWall) {
-
-        super(context, textViewResourceId, objects);
+    public PhotoAdapter(Context context, List<PhotoBean> datas,
+                        GridView photoWall) {
+        this.context = context;
+        this.datas = datas;
         mPhotoWall = photoWall;
         taskCollection = new HashSet<BitmapWorkerTask>(); // SET不会重复
         // 获取应用程序最大可用内存
@@ -79,39 +83,36 @@ public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.On
     }
 
     @Override
+    public int getCount() {
+        return datas.size();
+    }
+
+    @Override
+    public PhotoBean getItem(int i) {
+        return datas.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final String url = getItem(position);
+        final String url = getItem(position).filepath;
 
         View view;
         if (convertView == null) {
-            view = LayoutInflater.from(getContext()).inflate(R.layout.griditem_photo, null);
+            view = LayoutInflater.from(context).inflate(R.layout.item_gridview, parent, false);
         } else {
             view = convertView;
         }
-        final ImageView photo = (ImageView) view.findViewById(R.id.iv_photo);
+        final ImageView photo = (ImageView) view.findViewById(R.id.iv_item_gridview);
         // 给ImageView设置一个Tag，保证异步加载图片时不会乱序
         photo.setTag(url);
         setImageView(url, photo);
         return view;
 
-        // 老是出错。。。。。
-        /**
-         if(convertView==null)
-         {
-         // griditem中得到布局
-         convertView= LayoutInflater.from(parent.getContext()).inflate(R.layout.griditem,null);
-         ViewHolder vh=new ViewHolder();
-         vh.imageView= (ImageView) convertView.findViewById(R.id.photo);
-         convertView.setTag(vh);
-         }
-
-         ViewHolder vh= (ViewHolder) convertView.getTag();
-         final ImageView photo= (ImageView) convertView.findViewById(R.id.photo);
-         // 给ImageView设置一个Tag，保证异步加载图片时不会乱序
-         photo.setTag(url);
-         setImageView(url, photo);
-         return convertView;
-         */
     }
 
     class ViewHolder {
@@ -194,22 +195,22 @@ public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.On
      */
     private void loadBitmaps(int firstVisibleItem, int visibleItemCount) {
         try {
-//            for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
-//                String imageUrl = MediaStore.Images.imageThumbUrls[i];
-//                Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
-//                //判断是否在缓存中，不在的话就去下载图片
-//                if (bitmap == null) {
-//                    BitmapWorkerTask task = new BitmapWorkerTask();
-//                    taskCollection.add(task);
-//                    task.execute(imageUrl);
-//                } else {
-//                    //原来imageview设置了tag
-//                    ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
-//                    if (imageView != null && bitmap != null) {
-//                        imageView.setImageBitmap(bitmap);
-//                    }
-//                }
-//            }
+            for (int i = firstVisibleItem; i < firstVisibleItem + visibleItemCount; i++) {
+                String imageUrl = datas.get(i).filepath;
+                Bitmap bitmap = getBitmapFromMemoryCache(imageUrl);
+                //判断是否在缓存中，不在的话就去下载图片
+                if (bitmap == null) {
+                    BitmapWorkerTask task = new BitmapWorkerTask();
+                    taskCollection.add(task);
+                    task.execute(imageUrl);
+                } else {
+                    //原来imageview设置了tag
+                    ImageView imageView = (ImageView) mPhotoWall.findViewWithTag(imageUrl);
+                    if (imageView != null && bitmap != null) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -244,7 +245,8 @@ public class PhotoAdapter extends ArrayAdapter<String> implements AbsListView.On
         protected Bitmap doInBackground(String... params) {
             imageUrl = params[0];
             // 在后台开始下载图片
-            Bitmap bitmap = downloadBitmap(params[0]);
+//            Bitmap bitmap = downloadBitmap(params[0]);
+            Bitmap bitmap = BitmapFactory.decodeFile(params[0]);
             if (bitmap != null) {
                 // 图片下载完成后缓存到LrcCache中
                 addBitmapToMemoryCache(params[0], bitmap);

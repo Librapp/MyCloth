@@ -31,9 +31,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     private void createPhotoTable(SQLiteDatabase db) {
         String sql = "create table if not exists " + PhotoDao.TABLE +
-                "(PRIMARY KEY " +
+                "(" +
                 PhotoDao.TABLE_ID +
-                " int," +
+                " int AUTO_INCREMENT PRIMARY KEY," +
                 PhotoDao.TABLE_NAME +
                 " varchar," +
                 PhotoDao.TABLE_URL +
@@ -42,9 +42,17 @@ public class DbHelper extends SQLiteOpenHelper {
                 " varchar," +
                 PhotoDao.TABLE_CATEGORY +
                 " int," +
-                PhotoDao.TABLE_SEASON +
-                " int," +
-                PhotoDao.TABLE_DESCRIPTION + " varchar)";
+                PhotoDao.TABLE_DESCRIPTION +
+                " varchar," +
+                PhotoDao.TABLE_SPRING +
+                " boolean," +
+                PhotoDao.TABLE_SUMMER +
+                " boolean," +
+                PhotoDao.TABLE_AUTUMN +
+                " boolean," +
+                PhotoDao.TABLE_WINTER +
+                " boolean" +
+                ")";
         db.execSQL(sql);
     }
 
