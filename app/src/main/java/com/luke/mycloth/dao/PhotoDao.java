@@ -19,6 +19,10 @@ public class PhotoDao extends BaseDao {
     public static final String TABLE_URL = "photo_url";
     public static final String TABLE_FILEPATH = "photo_filepath";
     public static final String TABLE_CATEGORY = "photo_category";
+    public static final String TABLE_STYLE = "photo_style";
+    public static final String TABLE_MATERIAL = "photo_material";
+    public static final String TABLE_COLOR = "photo_color";
+    public static final String TABLE_COUNT = "photo_count";
     public static final String TABLE_SEASON = "photo_season";
     public static final String TABLE_DESCRIPTION = "photo_description";
     public static final String TABLE_SPRING = "photo_spring";

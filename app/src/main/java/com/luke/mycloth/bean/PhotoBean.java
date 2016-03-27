@@ -17,9 +17,12 @@ public class PhotoBean implements Serializable{
      */
     public String filepath;
     public String description;
-    public int category;
+    public int category = 0;
+    public int style = 0;
+    public int material = 0;
     public int spring = 0;
     public int summer = 0;
     public int autumn = 0;
     public int winter = 0;
+    public String color;
 }

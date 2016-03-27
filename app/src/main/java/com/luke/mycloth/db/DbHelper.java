@@ -42,6 +42,14 @@ public class DbHelper extends SQLiteOpenHelper {
                 " varchar," +
                 PhotoDao.TABLE_CATEGORY +
                 " int," +
+                PhotoDao.TABLE_STYLE +
+                " int," +
+                PhotoDao.TABLE_MATERIAL +
+                " int," +
+                PhotoDao.TABLE_COLOR +
+                " int," +
+                PhotoDao.TABLE_COUNT +
+                " int," +
                 PhotoDao.TABLE_DESCRIPTION +
                 " varchar," +
                 PhotoDao.TABLE_SPRING +

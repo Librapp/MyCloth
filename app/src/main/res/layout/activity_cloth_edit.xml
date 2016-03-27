@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:fitsSystemWindows="true"
               android:orientation="vertical"
               tools:context="com.luke.mycloth.ClothEditActivity">
@@ -21,6 +21,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
+
     <ImageView
         android:id="@+id/iv_photo"
         android:layout_width="180dp"
@@ -28,16 +29,11 @@
         android:layout_gravity="center_horizontal"
         android:scaleType="fitXY"/>
 
-    <Spinner
-        android:id="@+id/s_category"
+    <Button
+        android:id="@+id/bt_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/imageView"
-        android:entries="@array/part"
-        android:prompt="@string/category"
-        android:spinnerMode="dialog"/>
+        android:text="@string/color"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -45,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/s_category"
         android:orientation="horizontal">
 
         <CheckBox
@@ -77,12 +72,22 @@
             android:text="@string/winter"/>
     </LinearLayout>
 
+    <Spinner
+        android:id="@+id/s_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:entries="@array/part"
+        android:prompt="@string/category"
+        android:spinnerMode="dialog"/>
+
     <EditText
         android:id="@+id/et_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ellipsize="end"
-        android:hint="@string/backup"
+        android:hint="@string/name"
         android:inputType="text"/>
 
     <Button

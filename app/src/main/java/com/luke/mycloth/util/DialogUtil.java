@@ -1,8 +1,8 @@
 package com.luke.mycloth.util;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -15,9 +15,9 @@ import com.luke.mycloth.dao.PhotoDao;
  * Created by Luke on 2016/2/21 0021.
  */
 public class DialogUtil {
-    public static AlertDialog doWithPhoto(final Activity activity, final PhotoBean pb) {
+    public static Dialog doWithPhoto(final Activity activity, final PhotoBean pb) {
         final CharSequence[] items = {"编辑", "删除"};
-        AlertDialog dlg = new Builder(activity).setTitle("操作").setItems(items,
+        Dialog dlg = new Builder(activity).setTitle("操作").setItems(items,
                 new OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
