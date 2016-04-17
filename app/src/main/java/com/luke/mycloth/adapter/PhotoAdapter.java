@@ -14,7 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.luke.mycloth.R;
-import com.luke.mycloth.bean.PhotoBean;
+import com.luke.mycloth.bean.Cloth;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -37,7 +37,7 @@ public class PhotoAdapter extends BaseAdapter implements AbsListView.OnScrollLis
      */
     private LruCache<String, Bitmap> mMemoryCache;
 
-    private List<PhotoBean> datas;
+    private List<Cloth> datas;
     private Context context;
     /**
      * GridView的实例
@@ -59,7 +59,7 @@ public class PhotoAdapter extends BaseAdapter implements AbsListView.OnScrollLis
      */
     private boolean isFirstEnter = true;
 
-    public PhotoAdapter(Context context, List<PhotoBean> datas,
+    public PhotoAdapter(Context context, List<Cloth> datas,
                         GridView photoWall) {
         this.context = context;
         this.datas = datas;
@@ -88,7 +88,7 @@ public class PhotoAdapter extends BaseAdapter implements AbsListView.OnScrollLis
     }
 
     @Override
-    public PhotoBean getItem(int i) {
+    public Cloth getItem(int i) {
         return datas.get(i);
     }
 

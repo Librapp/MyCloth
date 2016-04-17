@@ -12,13 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.luke.mycloth.bean.PhotoBean;
-import com.luke.mycloth.dao.PhotoDao;
+import com.luke.mycloth.bean.Cloth;
+import com.luke.mycloth.dao.ClothDao;
 import com.luke.mycloth.util.PhotoUtil;
 
 public class ClothEditActivity extends BaseActivity implements OnClickListener {
     private ImageView preview;
-    private PhotoBean photo = new PhotoBean();
+    private Cloth photo = new Cloth();
     private Spinner s_category;
     private CheckBox spring, summer, autumn, winter;
     private EditText et_description;
@@ -43,7 +43,7 @@ public class ClothEditActivity extends BaseActivity implements OnClickListener {
     private void initData() {
         Intent i = getIntent();
         if (i.hasExtra("photo")) {
-            photo = (PhotoBean) i.getSerializableExtra("photo");
+            photo = (Cloth) i.getSerializableExtra("photo");
         } else {
             if (null != PhotoUtil.result) {
                 photo.filepath = PhotoUtil.result.getPath();
@@ -82,11 +82,11 @@ public class ClothEditActivity extends BaseActivity implements OnClickListener {
         photo.winter = winter.isChecked() ? 1 : 0;
         if (null != et_description.getText())
             photo.description = et_description.getText().toString();
-        PhotoDao photoDao = new PhotoDao(this);
-        if (null != photo.id && photoDao.isExist(photo.id))
-            photoDao.replace(photo);
+        ClothDao clothDao = new ClothDao(this);
+        if (null != photo.id && clothDao.isExist(photo.id))
+            clothDao.replace(photo);
         else
-            photoDao.insert(photo);
+            clothDao.insert(photo);
         finish();
     }
 

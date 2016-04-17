@@ -19,8 +19,8 @@ import android.widget.GridView;
 import com.luke.mycloth.ClothEditActivity;
 import com.luke.mycloth.R;
 import com.luke.mycloth.adapter.PhotoAdapter;
-import com.luke.mycloth.bean.PhotoBean;
-import com.luke.mycloth.dao.PhotoDao;
+import com.luke.mycloth.bean.Cloth;
+import com.luke.mycloth.dao.ClothDao;
 import com.luke.mycloth.util.DialogUtil;
 import com.luke.mycloth.util.PhotoUtil;
 
@@ -40,7 +40,7 @@ public class PartenFragment extends Fragment {
     private int category;
     private GridView gridView;
 
-    private List<PhotoBean> datas = new ArrayList<>();
+    private List<Cloth> datas = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -105,7 +105,7 @@ public class PartenFragment extends Fragment {
                 return true;
             }
         });
-        datas = new PhotoDao(getActivity()).queryByCategory(category);
+        datas = new ClothDao(getActivity()).queryByCategory(category);
         gridView.setAdapter(new PhotoAdapter(getActivity(), datas, gridView));
     }
 
@@ -165,7 +165,7 @@ public class PartenFragment extends Fragment {
                     PhotoUtil.startPhotoZoom(this, PhotoUtil.temp);
                     break;
                 case PhotoUtil.REQUEST_CROP:
-                    PhotoBean photo = new PhotoBean();
+                    Cloth photo = new Cloth();
                     photo.filepath = PhotoUtil.result.getPath();
                     photo.category = category;
                     Intent i = new Intent(getActivity(), ClothEditActivity.class);

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Luke on 2016/2/21 0021.
  */
-public class PhotoBean implements Serializable{
+public class Cloth implements Serializable {
     public String name;
     public String id;
     /**
@@ -17,6 +17,7 @@ public class PhotoBean implements Serializable{
      */
     public String filepath;
     public String description;
+    public int state = 0;
     public int category = 0;
     public int style = 0;
     public int material = 0;
@@ -25,4 +26,9 @@ public class PhotoBean implements Serializable{
     public int autumn = 0;
     public int winter = 0;
     public String color;
+    public String price;
+    public String produce_time;
+    public String manifest_time;
+    public String create_time;
+
 }

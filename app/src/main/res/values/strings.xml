@@ -16,19 +16,30 @@
     <string name="winter">冬</string>
     <string name="category">分类</string>
     <array name="part">
-        <item name="hat">帽子</item>
         <item name="coat">外套</item>
-        <item name="pants">裤子</item>
-        <item name="shoes">鞋</item>
-        <item name="pants">袜子</item>
+        <item name="coat">上装</item>
+        <item name="pants">下装</item>
         <item name="shoes">内衣</item>
+        <item name="pants">内裤</item>
+        <item name="pants">袜子</item>
+        <item name="shoes">鞋</item>
+        <item name="shoes">配饰</item>
+        <item name="pants">包</item>
+        <item name="shoes">围巾</item>
+        <item name="hat">帽子</item>
+        <item name="pants">手套</item>
     </array>
     <array name="style">
         <item name="business">商务</item>
         <item name="relax">休闲</item>
         <item name="sport">运动</item>
     </array>
+    <string name="state">状态</string>
     <string name="color">颜色</string>
     <string name="material">材质</string>
     <string name="count">数量</string>
+    <string name="price">价格</string>
+    <string name="produce_time">上市时间</string>
+    <string name="create_time">创建时间</string>
+    <string name="manifest_time">上次保养时间</string>
 </resources>

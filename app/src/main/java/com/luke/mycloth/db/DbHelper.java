@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.luke.mycloth.MyApplication;
-import com.luke.mycloth.dao.PhotoDao;
+import com.luke.mycloth.dao.ClothDao;
 
 /**
  * Created by Luke on 2016/2/21 0021.
@@ -30,35 +30,35 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     private void createPhotoTable(SQLiteDatabase db) {
-        String sql = "create table if not exists " + PhotoDao.TABLE +
+        String sql = "create table if not exists " + ClothDao.TABLE +
                 "(" +
-                PhotoDao.TABLE_ID +
+                ClothDao.TABLE_ID +
                 " int AUTO_INCREMENT PRIMARY KEY," +
-                PhotoDao.TABLE_NAME +
+                ClothDao.TABLE_NAME +
                 " varchar," +
-                PhotoDao.TABLE_URL +
+                ClothDao.TABLE_URL +
                 " varchar," +
-                PhotoDao.TABLE_FILEPATH +
+                ClothDao.TABLE_FILEPATH +
                 " varchar," +
-                PhotoDao.TABLE_CATEGORY +
+                ClothDao.TABLE_CATEGORY +
                 " int," +
-                PhotoDao.TABLE_STYLE +
+                ClothDao.TABLE_STYLE +
                 " int," +
-                PhotoDao.TABLE_MATERIAL +
+                ClothDao.TABLE_MATERIAL +
                 " int," +
-                PhotoDao.TABLE_COLOR +
+                ClothDao.TABLE_COLOR +
                 " int," +
-                PhotoDao.TABLE_COUNT +
+                ClothDao.TABLE_COUNT +
                 " int," +
-                PhotoDao.TABLE_DESCRIPTION +
+                ClothDao.TABLE_DESCRIPTION +
                 " varchar," +
-                PhotoDao.TABLE_SPRING +
+                ClothDao.TABLE_SPRING +
                 " boolean," +
-                PhotoDao.TABLE_SUMMER +
+                ClothDao.TABLE_SUMMER +
                 " boolean," +
-                PhotoDao.TABLE_AUTUMN +
+                ClothDao.TABLE_AUTUMN +
                 " boolean," +
-                PhotoDao.TABLE_WINTER +
+                ClothDao.TABLE_WINTER +
                 " boolean" +
                 ")";
         db.execSQL(sql);
