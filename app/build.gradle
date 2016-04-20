@@ -27,4 +27,5 @@ dependencies {
     compile 'com.google.okhttp:okhttp:20120626'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
 }
